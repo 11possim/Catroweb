@@ -896,3 +896,20 @@ services:
     class: App\Api\AuthenticationApi
     tags:
       - { name: "open_api_server.api", api: "authentication" }
+
+  # ====================================================================================================================
+  #  REDIS:
+  #        Register redis to handle the session data
+  #
+  Redis:
+    class: Redis
+    calls:
+      - method: connect
+        arguments:
+            - '127.0.0.1'
+            - '6379'
+
+  Symfony\Component\HttpFoundation\Session\Storage\Handler\RedisSessionHandler:
+      arguments:
+          - '@Redis'
+          - prefix: session_
